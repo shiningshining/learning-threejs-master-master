@@ -59,51 +59,70 @@
         // 创建一个立方体
         var cubeGeometry = new THREE.CubeGeometry(4,4,4);
         var cubeMaterial = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
-        var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+
+        //给六个面添加不同的材质
+        var mats = [];
+        mats.push(new THREE.MeshBasicMaterial({ color: 0x009e60  }));
+        mats.push(new THREE.MeshBasicMaterial({ color: 0x0051ba  }));
+        mats.push(new THREE.MeshBasicMaterial({ color: 0xffd500  }));
+        mats.push(new THREE.MeshBasicMaterial({ color: 0xff5800  }));
+        mats.push(new THREE.MeshBasicMaterial({ color: 0xC41E3A }));
+        mats.push(new THREE.MeshBasicMaterial({ color: 0xffffff  }));
+        var faceMaterial = new THREE.MeshFaceMaterial(mats);
+
+        var cube = new THREE.Mesh(cubeGeometry, faceMaterial);
 
         // 放置并添加立方体
         cube.position.x=-4;
         cube.position.y=0;
         cube.position.z=0;
 
-        scene.add(cube);
 
+        scene.add(cube);
 
         // 放置相机的位置，并打开相机
         camera.position.x = 10;
-        camera.position.y = 10;
-        camera.position.z = 10;
+        camera.position.y = -10;
+        camera.position.z = 30;
         camera.lookAt(scene.position);
 
         $("#WebGL-output").append(renderer.domElement);
 
-        // render the scene
-        // renderer.render(scene, camera);
 
-
+        
         var stats = initStats();
+        var step = 0;
 
         renders();
 
         function renders() {
             stats.update();
-            // rotate the cube around its axes
+            // 绕座标轴旋转立方体
             cube.rotation.x += 0.02;
             cube.rotation.y += 0.02;
             cube.rotation.z += 0.02;
 
-            // render using requestAnimationFrame
+            //照相机自动旋转
+            step+=0.02;
+            var x =6+4*(Math.sin(step));
+            camera.lookAt(new THREE.Vector3(x,10,0));
+
+
+
+
+            // 用requestAnimationFrame进行渲染
             requestAnimationFrame(renders);
             renderer.render(scene, camera);
         }
 
         function initStats() {
-
+            //fps显示统计
             var stats = new Stats();
 
             stats.setMode(0); // 0: fps, 1: ms
 
-            // Align top-left
+            // 左上角对齐
             stats.domElement.style.position = 'absolute';
             stats.domElement.style.left = '0px';
             stats.domElement.style.top = '0px';
@@ -113,7 +132,6 @@
 
             return stats;
         }
-
 
     });
 
