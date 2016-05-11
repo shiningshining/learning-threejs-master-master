@@ -40,7 +40,7 @@ w    <script type="text/javascript" src="/js/jquery-1.9.0.js"></script>
         // create a render and set the size
         var renderer = new THREE.WebGLRenderer();
 
-        renderer.setClearColorHex(0xEEEEEE, 1.0);
+        renderer.setClearColor(0xEEEEEE, 1.0);
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.shadowMapEnabled = true;
 
@@ -116,11 +116,6 @@ w    <script type="text/javascript" src="/js/jquery-1.9.0.js"></script>
             cube.rotation.y += 0.02;
             cube.rotation.z += 0.02;
 
-            // bounce the sphere up and down
-            step+=0.04;
-            sphere.position.x = 20+( 10*(Math.cos(step)));
-            sphere.position.y = 2 +( 10*Math.abs(Math.sin(step)));
-
             // render using requestAnimationFrame
             requestAnimationFrame(render);
             renderer.render(scene, camera);
@@ -136,6 +131,7 @@ w    <script type="text/javascript" src="/js/jquery-1.9.0.js"></script>
             stats.domElement.style.position = 'absolute';
             stats.domElement.style.left = '0px';
             stats.domElement.style.top = '0px';
+            stats.domElement.style.zIndex =100;
 
             $("#Stats-output").append( stats.domElement );
 
